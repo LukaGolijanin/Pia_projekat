@@ -1,0 +1,58 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+    background-color: beige;
+}
+
+form {
+    display: grid;
+    place-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+  
+body {
+  display: flex;
+  flex-direction: column;
+}
+  
+app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #540000;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  z-index: 1000; 
+}
+
+main {
+  flex: 1; 
+  padding: 50px 0 60px;
+  
+}
+
+app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #540000;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  z-index: 1000; 
+}
+
+.pad {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
