@@ -1,0 +1,20 @@
+<div class="pad">
+<h4>Trenutna zakazivanja</h4>
+<table border="2">
+    <tr>
+        <th>Datum zakazivanja</th>
+        <th>Datum izrade</th>
+        <th>Firma</th>
+        <th>Tražene usluge</th>
+        <th>Otkazivanje</th>
+    </tr>
+    <tr *ngFor="let z of trenutnaZakazivanja">
+        <td>{{z.datumZakazivanja | date }}</td>
+        <td>{{z.datum | date }}</td>
+        <td>{{z.firma}}</td>
+        <td><span *ngFor="let u of z.usluge"> - {{u}}<br></span></td>
+        <td *ngIf="otkazivanje(z.datum)"><button (click)="otkazi(z.datumZakazivanja)">Otkaži</button></td>
+        <td *ngIf="!otkazivanje(z.datum)"><b>!</b></td>
+    </tr>
+</table>
+</div>

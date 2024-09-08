@@ -1,0 +1,82 @@
+<hr>
+<div class="flex">
+<form [formGroup]="form" (ngSubmit)="potvrdi()">
+    <div *ngIf="basta_tip === 'privatna'">
+      <div>
+        <label for="bazen">Površina bazena (m²):</label><br>
+        <input id="bazen" type="number" formControlName="bazen" />
+        <small *ngIf="form.get('bazen')?.hasError('min')">Površina bazena ne sme biti negativan broj.</small>
+      </div>
+  
+      <div>
+        <label for="zelenilo">Zelenilo (m²):</label><br>
+        <input id="zelenilo" type="number" formControlName="zelenilo" />
+        <small *ngIf="form.get('zelenilo')?.hasError('min')">Zelenilo ne sme biti negativan broj.</small>
+      </div>
+  
+      <div>
+        <label for="stoloviPovrsina">Površina pod stolovima i stolicama (m²):</label><br>
+        <input id="stoloviPovrsina" type="number" formControlName="stoloviPovrsina" />
+        <small *ngIf="form.get('stoloviPovrsina')?.hasError('min')">Površina ne sme biti negativan broj.</small>
+      </div>
+    </div>
+  
+    <div *ngIf="basta_tip === 'restoranska'">
+      <div>
+        <label for="fontana">Površina pod fontanom (m²):</label><br>
+        <input id="fontana" type="number" formControlName="fontana" />
+        <small *ngIf="form.get('fontana')?.hasError('min')">Površina fontane ne sme biti negativan broj.</small>
+      </div>
+  
+      <div>
+        <label for="stoloviBroj">Broj stolova i stolica:</label><br>
+        <input id="stoloviBroj" type="number" formControlName="stoloviBroj" />
+        <small *ngIf="form.get('stoloviBroj')?.hasError('min')">Broj stolova ne sme biti negativan broj.</small>
+      </div>
+    
+  
+      <div>
+        <label for="zelenilo">Zelenilo (m²):</label><br>
+        <input id="zelenilo" type="number" formControlName="zelenilo" />
+        <small *ngIf="form.get('zelenilo')?.hasError('min')">Zelenilo ne sme biti negativan broj.</small>
+      </div>
+    </div>
+    <div>
+      <label for="dodatno">Dodatni zahtevi:</label><br>
+      <textarea id="dodatno" formControlName="dodatno"></textarea>
+    </div>
+    <div>
+    <div *ngFor="let u of firma.usluge">
+      <input type="checkbox" [id]="u" [checked]="isChecked(u)"
+      (change)="update(u, $event)">
+      <label for="u">{{u}}</label>
+    </div>
+    </div>    
+
+    <button type="button" (click)="nazad()">Nazad</button>
+    <button type="submit">Potvrdi</button>
+    <small>{{err}}</small>
+  </form>
+  <br>
+  <div class="can">
+    <input type="file" (change)="onFileChange($event)" accept=".json">
+    <div>
+      <!-- KANVAS -->
+      <label for="oblik">Element i boja: </label>
+      <select id="combination" [(ngModel)]="trenutnaKombinacija">
+        <option *ngFor="let combo of dozvoljeneKombinacije" [ngValue]="combo">
+          {{ getCustomText(combo) }}
+        </option>
+      </select>
+      <label for="velicina">Velicina: </label>
+      <input id="velicina" type="number" [(ngModel)]="velicina" min="1">
+      
+      <button type="button" (click)="dozvoliCrtanje()">Crtaj</button>
+      <button type="button" (click)="obrisi()">Obriši</button>
+    </div>
+    <br>
+    <canvas #canvas id="canvas" width="600" height="400" style="border: 1px solid #000"></canvas>
+
+  </div>
+  
+</div>

@@ -1,0 +1,21 @@
+<html>
+    <form #pForm="ngForm" (ngSubmit)="promeniLozinku(pForm)">
+        <h3>Promena lozinke:</h3>
+        Stara lozinka: 
+        <input type="password" name="stara" [(ngModel)]="stara" #st="ngModel" required> <br>
+        <div *ngIf="(st.dirty || st.touched)">
+            <small *ngIf="st.errors?.['required'] && st.invalid">Unesite staru lozinku!</small>
+            <small *ngIf="st.dirty && !st.errors?.['required']">{{ st_err }}</small>
+        </div>
+        Nova lozinka: <input type="password" name="nova" [(ngModel)]="nova" #n="ngModel" required> <br>
+        <div *ngIf="(n.dirty || n.touched)">
+            <small *ngIf="n.errors?.['required'] && n.invalid">Lozinka je obavezna!</small>
+            <small *ngIf="n.dirty && !passwordValidator(nova) && !n.errors?.['required']">{{ n_err }}</small>
+        </div>
+        Ponovite novu lozinku: <input type="password" name="nova1" [(ngModel)]="nova1" #n1="ngModel" required> <br>
+        <div *ngIf="(n1.dirty || n1.touched)">
+            <small *ngIf="(n1.dirty && !sameValidator1(nova, nova1)) || n1.errors?.['required']">{{ n1_err }}</small>
+        </div>
+        <button type="submit">Promeni lozinku</button>
+    </form>
+</html>

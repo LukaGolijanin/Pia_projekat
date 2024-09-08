@@ -1,0 +1,18 @@
+<div class="menudiv">
+<nav class="menu">
+    <ul>
+        <li><a routerLink="profil" routerLinkActive="active">Profil</a></li>
+        <li><a routerLink="firme" routerLinkActive="active">Firme</a></li>
+        <li><a routerLink="zakazivanja" routerLinkActive="active">Zakazivanja</a></li>
+        <li><a routerLink="odrzavanje" routerLinkActive="active">Održavanje</a></li>
+    </ul>
+</nav>
+</div>
+<div class="main">
+<router-outlet></router-outlet>
+</div>
+<hr>
+<div class="pad">
+<a routerLink="/promena">Promena lozinke</a><br><br>
+<button (click)="logout()">Logout</button> 
+</div>

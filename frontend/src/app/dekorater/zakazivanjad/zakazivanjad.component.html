@@ -1,0 +1,48 @@
+<div class="pad">
+    <h4>Moja firma: {{ulogovan.firma}}</h4>
+    <table border="2">
+        <tr>
+            <th [attr.colspan]="kliknut ? 6 : 5">Zakazivanja</th>
+        </tr>
+        <tr>
+            <th>Datum zakazivanja</th>
+            <th>Datum završetka radova</th>
+            <th>Vlasnik</th>
+            <th>Usluge</th>
+            <th>Potvrda/Odbijanje</th>
+            <th *ngIf="kliknut != null">Komentar za odbitak</th>
+        </tr>
+        <tr *ngFor="let z of zakazivanja">
+            <td>{{z.datumZakazivanja | date}}</td>
+            <td>{{z.datum | date}}</td>
+            <td>{{z.vlasnik}}</td>
+            <td><span *ngFor="let u of z.usluge">{{u}}<br></span></td>
+            <td>
+                <button (click)="potvrdi(z.datum, z.datumZakazivanja)">Potvrdi</button>
+                <br>
+                <button (click)="edit(z)">Odbij</button>
+            </td>
+            <td *ngIf="kliknut == z">
+                <textarea [(ngModel)]="komentar" placeholder="Unesite razlog"></textarea><br>
+                <button (click)="odbij(z.datumZakazivanja)">Submit</button>
+            </td>
+        </tr>
+    </table><br>
+    <table border="2">
+        <tr>
+            <th colspan="4">Moji poslovi</th>
+        </tr>
+        <tr>
+            <th>Rok za izradu</th>
+            <th>Vlasnik</th>
+            <th>Usluge</th>
+            <th>Dodatni zahtevi</th>
+        </tr>
+        <tr *ngFor="let p of mojiPoslovi">
+            <td>{{p.datum | date}}</td>
+            <td>{{p.vlasnik}}</td>
+            <td><span *ngFor="let u of p.usluge">{{u}}<br></span></td>
+            <td>{{p.dodatno}}</td>
+        </tr>
+    </table>
+</div>

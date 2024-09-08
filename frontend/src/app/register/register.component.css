@@ -1,0 +1,53 @@
+h2 {
+    display: grid;
+    place-items: center;
+    font-style: italic;
+}
+
+html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    /* place-items: center; */
+    justify-content: center;
+}
+
+form {
+    place-items: center;
+    text-align: center;
+}
+
+#message {
+    font-size: 10px;
+    /* display: none; */
+}
+
+img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+small {
+    color: red;
+}
+
+button {
+    margin-top: 20px;
+}
+
+input {
+    margin: 3px;
+}
+
+.poruka {
+    margin-top: 30px;
+}
+
+.nazad {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    z-index: 999;
+}

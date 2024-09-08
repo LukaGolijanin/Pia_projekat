@@ -1,0 +1,37 @@
+<div class="pad">
+    <div *ngIf="profilePicURL" class="slika">
+        <img [src]="profilePicURL"/>
+        <input *ngIf="edit == true" id="profile_pic" name="profile_pic" type="file" (change)="onFileChange($event)">
+        <span *ngIf="pic_err">
+            <small>{{ pic_err }}</small>
+        </span>
+    </div>
+    <br>
+    Ime: {{ulogovan.ime}} <input type="text" *ngIf="edit == true" [(ngModel)]="ime"> <br>
+    Prezime: {{ulogovan.prezime}} <input type="text" *ngIf="edit == true" [(ngModel)]="prezime"> <br>
+    Adresa: {{ulogovan.adresa}} <input type="text" *ngIf="edit == true" [(ngModel)]="adresa"> <br>
+    E-mail: {{ulogovan.email}} 
+    
+    <span *ngIf="edit == true"> 
+        <input id="email" name="email" [(ngModel)]="email" #emaill="ngModel" email="">
+        <span *ngIf="emaill.invalid && (emaill.dirty || emaill.touched)">
+            <small *ngIf="emaill.errors?.['email']">Molimo unesite validnu e-mail adresu.</small>
+        </span>
+    </span>    
+    <br>
+    
+    Kontakt telefon: {{ulogovan.tel}}
+    
+    <span *ngIf="edit == true"> 
+        <input id="tel" name="tel" [(ngModel)]="tel" #tell="ngModel" pattern="(\+[0-9]{6,12}|0[0-9]{6,12})">
+        <span *ngIf="tell.invalid && (tell.dirty || tell.touched)">
+            <small *ngIf="tell.errors?.['pattern']">Molimo unesite validan broj telefona.</small>
+        </span>
+    </span>    
+    <br>
+    
+    <button *ngIf="edit == false" (click)="editing()">Uredi profil</button>
+    <button *ngIf="edit == true" (click)="confirm()">Potvrdi</button>
+    <button *ngIf="edit == true" (click)="editing()">Odustani</button>
+    <small>{{ err_text }}</small>
+</div>

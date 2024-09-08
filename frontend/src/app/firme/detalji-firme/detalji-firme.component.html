@@ -1,0 +1,31 @@
+
+
+<h2 style="padding-left: 20px;">{{ firma.naziv }}</h2>
+<div *ngIf="firma" class="flex"> 
+    <div>
+        <p><i>Adresa:</i> {{ firma.adresa }}</p>
+        <i>Cenovnik:</i>
+        <p class="indent" *ngFor="let i of getParovi(firma)">
+            - {{firma.usluge[i]}}: {{firma.cenovnik[i]}} &euro;
+        </p>
+        <p><i>Kontakt telefon:</i> {{firma.tel}}</p>
+    </div>  
+    <div>
+        <p *ngIf="prosecnaOcena != 0"><i>Prosečna ocena:</i> {{prosecnaOcena}} 
+          <br>  <span id="zvezde" [innerHTML]="generateStars()"></span></p>
+        <p *ngIf="prosecnaOcena == 0"><i>Prosečna ocena:</i> Nema ocena.</p>
+        <i>Komentari:</i>
+        <p class="indent" *ngFor="let i of firma.komentari">
+            - {{i}} 
+        </p>
+        <p class="indent" *ngIf="firma.komentari.length == 0">- Još uvek nema komentara za ovu firmu.</p>
+    </div>
+    <div>
+        <i>Lokacija:</i><br>
+        <div id="map"></div>
+    </div>
+</div>
+
+<button style="margin-left: 20px;" (click)="navigate()">Zakaži uređivanje</button>
+
+<router-outlet></router-outlet>

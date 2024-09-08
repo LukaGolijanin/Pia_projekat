@@ -1,0 +1,45 @@
+<div class="pad">
+    <h4>Zahtevi za održavanja</h4>
+    <table border="2">
+        <tr>
+            <th>Datum završetka radova</th>
+            <th>Bazen/fontana</th>
+            <th>Površina pod bazenom/fontanom</th>
+            <th>Potvrda/Odbijanje</th>
+            <th *ngIf="kliknut != null">Datum servisiranja</th>
+        </tr>
+        <tr *ngFor="let g of ZahteviZaOdrzavanje">
+            <td>{{g.datum | date}}</td>
+            <td *ngIf="g.tip == 'restoranska'">Fontana</td>
+            <td *ngIf="g.tip == 'privatna'">Bazen</td>
+            <td *ngIf="g.tip == 'restoranska'">{{g.fontana}}</td>
+            <td *ngIf="g.tip == 'privatna'">{{g.bazen}}</td>
+            <td>
+                <button (click)="edit(g)">Potvrdi</button>
+                <br>
+                <button (click)="odbij(g.datumZakazivanja)">Odbij</button>
+            </td>
+            <td *ngIf="kliknut == g">
+                <input #flatpickrInput type="text" placeholder="Izaberite datum" />
+                <button (click)="potvrdi(g.datumZakazivanja, flatpickrInput.value)">POTVRDI</button>
+                <small>{{ komentar }}</small>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <h4>Potvrđena servisiranja</h4>
+    <table border="2">
+        <tr>
+            <th>Datum završetka servisa</th>
+            <th>Bazen/fontana</th>
+            <th>Površina pod bazenom/fontanom</th>
+        </tr>
+        <tr *ngFor="let p of mojaOdrzavanja">
+            <td>{{p.datumServisiranja | date}}</td>
+            <td *ngIf="p.tip == 'restoranska'">Fontana</td>
+            <td *ngIf="p.tip == 'privatna'">Bazen</td>
+            <td *ngIf="p.tip == 'restoranska'">{{p.fontana}}</td>
+            <td *ngIf="p.tip == 'privatna'">{{p.bazen}}</td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,138 @@
+.icon {
+    width: 50px;
+    height: auto;
+}
+
+.tabele {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.tabele2 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.sredina {
+    text-align: center;
+}
+
+table {
+    width: auto;
+}
+
+small {
+    color: red;
+}
+
+.novidekorater {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.noviDugme {
+    width: 150px;
+    height: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.edit {
+    padding-left: 1px;
+}
+
+.edit button {
+    margin-top: 1px;
+}
+
+.kartica {
+    width: 35px;
+    height: auto;
+    margin-left: 10px;
+    
+    transform: translateY(7px);
+}
+.k2 {
+    width: 35px;
+    height: auto;
+    margin-top: 2px;
+}
+
+.top {
+    margin-top: 2px;
+}
+
+.wrap {
+    width: 200px;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+.novafirma {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sekcija {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.sekcija label,
+.sekcija input,
+.sekcija select {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.aktiviraj {
+    background-color: green;
+    color: white;
+}
+
+.deaktiviraj {
+    background-color: maroon;
+    color: white;
+}
+
+#map {
+    width: 300px;       /* Full width of its container */
+    height: 300px;     /* Fixed height */
+    margin: 10px 0;    /* Spacing around the map */
+    position: relative; /* Ensure positioning context */
+    overflow: hidden;  /* Hide overflow content if needed */
+    z-index: 990;
+  }
+
+.cene {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.skrol {
+    max-height: 450px;
+    overflow-y: auto;
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 6px;
+    text-align: center;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: antiquewhite;
+    z-index: 1;
+}

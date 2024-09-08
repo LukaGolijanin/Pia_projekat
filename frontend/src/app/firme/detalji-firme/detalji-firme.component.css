@@ -1,0 +1,54 @@
+.indent {
+    padding-left: 20px;
+    padding-bottom: 1px;
+    border-bottom: 2px black;
+}
+
+#map {
+    width: 300px;       /* Full width of its container */
+    height: 300px;     /* Fixed height */
+    margin: 10px 0;    /* Spacing around the map */
+    position: relative; /* Ensure positioning context */
+    overflow: hidden;  /* Hide overflow content if needed */
+    z-index: 990;
+  }
+
+.flex {
+    display: flex;
+    gap: 30px;
+    padding-left: 20px;
+}
+
+.star {
+    font-size: 24px;
+    color: grey;
+    display: inline-block;
+    position: relative;
+}
+
+.star.full {
+    color: gold;
+}
+
+.star.half {
+    position: relative;
+    color: gold;
+}
+
+.star.half::before {
+    content: '\f123';
+    color: gold;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'Font Awesome 5 Free';
+    width: 50%;
+    overflow: hidden;
+    font-weight: 900;
+}
+
+.star.empty {
+    color: grey;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}

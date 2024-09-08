@@ -1,0 +1,21 @@
+.slika {
+    margin: 10px;
+    width: 100px;
+    height: auto;
+}
+
+button {
+    margin: 5px;
+}
+
+small {
+    color: red;
+}
+
+.kartica {
+    width: 35px;
+    height: auto;
+    margin-left: 10px;
+    
+    transform: translateY(7px);
+}

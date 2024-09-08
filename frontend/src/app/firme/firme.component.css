@@ -1,0 +1,71 @@
+.firme {
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.star {
+    font-size: 10px;
+    color: grey;
+    display: inline-block;
+    position: relative;
+}
+
+.star.full {
+    color: gold;
+}
+
+.star.half {
+    position: relative;
+    color: gold;
+}
+
+.star.half::before {
+    content: '\f123';
+    color: gold;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'Font Awesome 5 Free';
+    width: 50%;
+    overflow: hidden;
+    font-weight: 900;
+}
+
+.star.empty {
+    color: grey;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+
+.klik:hover {
+    color: maroon;
+}
+
+.tabela {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid black;
+    width: 80%;
+    margin-right: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 6px;
+    text-align: center;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: antiquewhite;
+    z-index: 1;
+}
+
+.small {
+    font-size: small;
+}

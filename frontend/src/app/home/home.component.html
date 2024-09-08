@@ -1,0 +1,56 @@
+<div class="menudiv">
+    <nav class="menu">
+        <ul>
+            <li><a routerLink="login" routerLinkActive="active">Login</a></li>
+            <li><a routerLink="register" routerLinkActive="active">Register</a></li>
+        </ul>
+    </nav>
+</div>
+<form class="home">
+    <h1>VAŠA MAŠTA - VAŠA BAŠTA</h1>
+</form>
+<div class="sve">
+    <div class="sekcija">
+        <h3>Ukupan broj registrovanih dekoratera</h3>
+        <p>{{ brDekoratera }}</p>
+        <h3>Ukupan broj registrovanih vlasnika</h3>
+        <p>{{ brVlasnika }}</p>
+    </div>
+    <div class="sredina">
+        <h2>Firme</h2>
+        <div>
+            <label for="filterNaziv">Naziv: </label>
+            <input class="mali" type="text" id="filterNaziv" [(ngModel)]="filterNaziv" placeholder="Unesite naziv">
+            <br>
+            <label for="filterAdresa">Adresa: </label>
+            <input class="mali" type="text" id="filterAdresa" [(ngModel)]="filterAdresa" placeholder="Unesite adresu">
+        </div>
+        <br>
+        <div class="tabela">
+            <table border="2">
+
+                <tr>
+                    <th><a href="#" (click)="sortBy('naziv')">Naziv</a>
+                        <span *ngIf="po == 'naziv'">({{ pravac === 'asc' ? '↑' : '↓' }})</span>
+                    </th>
+                    <th><a href="#" (click)="sortBy('adresa')">Adresa</a>
+                        <span *ngIf="po == 'adresa'">({{ pravac === 'asc' ? '↑' : '↓' }})</span></th>
+                    <th>Dekorateri</th>
+                </tr>
+                <tr *ngFor="let f of filter()">
+                    <td><b>{{f.naziv}}</b></td> 
+                    <td>{{f.adresa}}</td>
+                    <td><span *ngFor="let d of aktivniDekorateriFirme(f.naziv)">{{d.ime}} {{d.prezime}}<br></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="sekcija">
+        <h3>Broj zakazanih poslova u poslednjih 24 sata</h3>
+        <p>{{brDan}}</p>
+        <h3>Broj zakazanih poslova u poslednjih 7 dana</h3>
+        <p>{{brNedelja}}</p>
+        <h3>Broj zakazanih poslova u poslednjih 30 dana</h3>
+        <p>{{brMesec}}</p>
+    </div>
+</div>

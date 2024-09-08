@@ -1,0 +1,28 @@
+html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    /* place-items: center; */
+    justify-content: center;
+}
+
+
+
+select {
+    width: 170px;
+}
+
+.t {
+    text-align: center;
+}
+
+.error {
+    color: red;
+}
+
+.nazad {
+    position: absolute;
+    top: 68px;
+    left: 10px;
+    z-index: 999;
+}

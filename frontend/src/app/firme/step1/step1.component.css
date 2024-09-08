@@ -1,0 +1,10 @@
+form {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 5px;
+}
+
+small {
+    color: red;
+}

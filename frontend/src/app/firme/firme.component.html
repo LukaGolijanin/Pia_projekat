@@ -1,0 +1,38 @@
+<div class="firme" id="sec2">
+
+    <div>
+        <p><b>Pretraga</b></p>
+        <label for="filterNaziv">Naziv: </label>
+        <input type="text" id="filterNaziv" [(ngModel)]="filterNaziv" placeholder="Unesite naziv">
+        -
+        <label for="filterAdresa">Adresa: </label>
+        <input type="text" id="filterAdresa" [(ngModel)]="filterAdresa" placeholder="Unesite adresu">
+      </div>
+      <br>
+      <div class="tabela">
+        <table border="2">
+            <tr>
+                <th colspan="4"><i>Firme</i></th>
+            </tr>
+            <tr>
+                <th><a href="javascript:void(0)" (click)="sortBy('naziv')">Naziv</a>
+                    <span *ngIf="po == 'naziv'">({{ pravac === 'asc' ? '↑' : '↓' }})</span>
+                </th>
+                <th><a href="javascript:void(0)" (click)="sortBy('adresa')">Adresa</a>
+                    <span *ngIf="po == 'adresa'">({{ pravac === 'asc' ? '↑' : '↓' }})</span></th>
+                <th>Dekorateri</th>
+                <th>Prosečna ocena</th>
+            </tr>
+            <tr *ngFor="let f of filter()">
+                <td class="klik" (click)="detalji(f)" style="cursor: pointer;"><b>{{f.naziv}}</b></td> 
+                <td>{{f.adresa}}</td>
+                <td><span *ngFor="let d of aktivniDekorateriFirme(f.naziv)">{{d.ime}} {{d.prezime}}<br></span></td>
+                <td *ngIf="f.br_ocena != 0">
+                    {{calcAvg(f.suma_ocena,f.br_ocena)}} <br>
+                    <span id="zvezde" [innerHTML]="generateStars(f)"></span></td>
+                <td *ngIf="f.br_ocena == 0">Firma još uvek nema ocene.</td>
+            </tr>
+        </table>
+    </div><br>
+    <span class="small">*Kliknite na naziv firme za detalje.</span>
+</div>

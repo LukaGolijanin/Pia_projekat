@@ -1,0 +1,490 @@
+<app-menu (navigate)="onNavigate($event)"></app-menu>
+<html class="pad">
+<h3>Admin: {{ulogovan.ime}}</h3>
+<br>
+<div class="tabele">
+<div class="skrol">
+<table border="2" id="sec1">
+    <tr>
+        <th colspan="3"><i>Dekorateri</i></th>
+    </tr>
+    <tr *ngFor="let d of dekorateri">
+        <td>
+            <div *ngIf="d.profile_pic != ''" class="slika">
+                <img class="icon" [src]="'http://localhost:4000/uploads/' + d.profile_pic"/>
+                
+            </div>
+            {{d.ime}} {{d.prezime}} <br>
+            {{d.email}} <br>
+            Pol: {{d.pol == 'M' ? 'M' : 'Ž'}} <br>
+            Kontakt telefon: {{d.tel}} <br>
+            Adresa: {{d.adresa}} <br>
+            Firma: {{d.firma}} <br>
+            Odobren: {{d.odobren ? 'DA' : 'NE'}} <br>
+        </td>
+        <td class="sredina">
+            <button [ngClass]="{'aktiviraj': !d.odobren, 'deaktiviraj': d.odobren}" (click)="promeniStatus(d.kor_ime,d.tip)">{{d.odobren ? 'DEAKTIVIRAJ' : 'AKTIVIRAJ'}}</button>
+        </td>
+        <td [ngClass]="{'sredina': editingDekorater != d}">
+            <button *ngIf="editingDekorater != d" (click)="editingD(d)">Izmeni podatke</button>
+            <div class="edit" *ngIf="editingDekorater == d">
+                <div>
+                    Profilna slika:
+                    <input id="profile_pic" name="profile_pic" type="file" (change)="onFileChange($event,2)">
+                    <span *ngIf="pic_errD">
+                        <small>{{ pic_errD }}</small>
+                    </span>
+                </div>
+                <br>
+                Ime: <input type="text" [(ngModel)]="upDekorater.ime"> <br>
+                Prezime: <input type="text" [(ngModel)]="upDekorater.prezime"> <br>
+                E-mail: 
+                
+                <span> 
+                    <input id="email" name="email" [(ngModel)]="upDekorater.email" #emaill="ngModel" email="">
+                    <span *ngIf="emaill.invalid && (emaill.dirty || emaill.touched)">
+                        <small *ngIf="emaill.errors?.['email']">Molimo unesite validnu e-mail adresu.</small>
+                    </span>
+                </span>    
+                <br>
+                Adresa: <input type="text" [(ngModel)]="upDekorater.adresa"> <br>
+                
+                Pol: <select id="pol" name="pol" [(ngModel)]="upDekorater.pol" #poll="ngModel" required>
+                    <option value="" disabled>Izaberite pol</option>
+                    <option value="M">M</option>
+                    <option value="z">Ž</option>
+                    </select>
+                <br>
+
+                Kontakt telefon: 
+                
+                <span> 
+                    <input id="tel" name="tel" [(ngModel)]="upDekorater.tel" #tell="ngModel" pattern="(\+[0-9]{6,12}|0[0-9]{6,12})">
+                    <span *ngIf="tell.invalid && (tell.dirty || tell.touched)">
+                        <small *ngIf="tell.errors?.['pattern']">Molimo unesite validan broj telefona.</small>
+                    </span>
+                </span>    
+                <br>
+
+                Firma: 
+
+                <span> 
+                    <input id="firma" name="firma" [(ngModel)]="upDekorater.firma" #firmaa="ngModel">
+                    <span *ngIf="(firmaa.dirty || firmaa.touched)">
+                        <small *ngIf="nepostojecaFirma(upDekorater.firma)">Molimo unesite postojeću firmu.</small>
+                    </span>
+                </span>    
+                <br>
+                
+                <button (click)="confirmD(d)">Potvrdi</button>
+                <button (click)="editingD(d)">Odustani</button>
+                <small>{{ err_text }}</small>
+            </div>
+        </td>
+    </tr>
+</table><br>
+</div>
+<div class="skrol">
+<table border="2">
+    <tr>
+        <th colspan="3"><i>Vlasnici</i></th>
+    </tr>
+    <tr *ngFor="let v of vlasnici">
+        <td>
+            <div *ngIf="v.profile_pic != ''" class="slika">
+                <img class="icon" [src]="'http://localhost:4000/uploads/' + v.profile_pic"/>
+                
+            </div>
+            {{v.ime}} {{v.prezime}} <br>
+            {{v.email}} <br>
+            Pol: {{v.pol == 'M' ? 'M' : 'Ž'}} <br>
+            Kontakt telefon: {{v.tel}} <br>
+            Adresa: {{v.adresa}} <br>
+            Kreditna kartica: {{v.credit_card}} <br>
+            Odobren: {{v.odobren ? 'DA' : 'NE'}} <br>
+        </td>
+        <td [ngClass]="{'sredina': editingVlasnik != v}">
+            <button [ngClass]="{'aktiviraj': !v.odobren, 'deaktiviraj': v.odobren}" (click)="promeniStatus(v.kor_ime, v.tip)">{{v.odobren ? 'DEAKTIVIRAJ' : 'AKTIVIRAJ'}}</button>
+        </td>
+        <td>
+            <button class="sredina" *ngIf="editingVlasnik != v" (click)="editingV(v)">Izmeni podatke</button>
+            <div class="edit" *ngIf="editingVlasnik == v">
+                <div>
+                    Profilna slika:
+                    <input id="profile_pic" name="profile_pic" type="file" (change)="onFileChange($event,3)">
+                    <span *ngIf="pic_errV">
+                        <small>{{ pic_errV }}</small>
+                    </span>
+                </div>
+                <br>
+                Ime: <input type="text" [(ngModel)]="upVlasnik.ime"> <br>
+                Prezime: <input type="text" [(ngModel)]="upVlasnik.prezime"> <br>
+                E-mail: 
+                
+                <span> 
+                    <input id="email" name="email" [(ngModel)]="upVlasnik.email" #emaill="ngModel" email="">
+                    <span *ngIf="emaill.invalid && (emaill.dirty || emaill.touched)">
+                        <small *ngIf="emaill.errors?.['email']">Molimo unesite validnu e-mail adresu.</small>
+                    </span>
+                </span>    
+                <br>
+
+                Adresa: <input type="text" [(ngModel)]="upVlasnik.adresa"> <br>
+                
+                Pol: <select id="pol" name="pol" [(ngModel)]="upVlasnik.pol" #poll="ngModel" required>
+                    <option value="" disabled>Izaberite pol</option>
+                    <option value="M">M</option>
+                    <option value="z">Ž</option>
+                    </select>
+                <br>
+
+                Kontakt telefon: 
+                
+                <span> 
+                    <input id="tel" name="tel" [(ngModel)]="upVlasnik.tel" #tell="ngModel" pattern="(\+[0-9]{6,12}|0[0-9]{6,12})">
+                    <span *ngIf="tell.invalid && (tell.dirty || tell.touched)">
+                        <small *ngIf="tell.errors?.['pattern']">Molimo unesite validan broj telefona.</small>
+                    </span>
+                </span>    
+                <br>
+
+                Broj kreditne kartice:
+                <span>
+                <input id="credit_card" name="credit_card" [(ngModel)]="upVlasnik.credit_card" #creditcard="ngModel" pattern="[0-9]{15,16}" (input)="onCreditCardInput()">
+                    <span *ngIf="(creditcard.dirty || creditcard.touched)">
+                        <small *ngIf="invalidCard()">Molimo unesite validan broj kartice.</small>
+                    </span>
+
+                    <span *ngIf="cardTypeV">
+                        <img class="kartica" *ngIf="cardTypeV == 'visa'" src="../../assets/visa.png">
+                        <img class="kartica" *ngIf="cardTypeV == 'master'" src="../../assets/master.png">
+                        <img class="kartica" *ngIf="cardTypeV == 'diners'" src="../../assets/diners.png">
+                    </span>
+                </span>
+                <br>
+                
+                <button (click)="confirmV(v)">Potvrdi</button>
+                <button (click)="editingV(v)">Odustani</button>
+                <small>{{ err_text }}</small>
+            </div>
+        </td>
+    </tr>
+</table>
+</div>
+<button class="noviDugme" (click)="dodaj()" *ngIf="dugmeDekorater == true"><b>Dodaj novog dekoratera</b></button>
+<form class="novidekorater" #regForm="ngForm" *ngIf="noviD == true" (ngSubmit)="noviDekorater(regForm)">
+    <h3><i>Novi dekorater:</i></h3>
+    <hr>
+    <label for="kor_ime">Korisničko ime</label>
+    <input type="text" id="kor_ime" name="kor_ime" [(ngModel)]="kor_ime" #korime="ngModel" required/>
+    <div *ngIf="korime.invalid && (korime.dirty || korime.touched)">
+        <small *ngIf="korime.errors?.['required']">Korisničko ime je obavezno!</small>
+    </div>
+
+    <label for="lozinka">Lozinka</label>
+    <input id="lozinka" name="lozinka" type="password" [(ngModel)]="lozinka" #password="ngModel" required/>
+    <div *ngIf="(password.dirty || password.touched)">
+        <small *ngIf="password.errors?.['required'] && password.invalid">Lozinka je obavezna!</small>
+        <small *ngIf="password.dirty && !passwordValidator(lozinka,1) && !password.errors?.['required']"><p class="wrap">{{pass_err}}</p></small>
+    </div>
+
+    <label for="ime">Ime</label>
+    <input id="ime" name="ime" [(ngModel)]="ime" #imee="ngModel" required>
+    <div *ngIf="imee.invalid && (imee.dirty || imee.touched)">
+        <small *ngIf="imee.errors?.['required']">Ime je obavezno!</small>
+    </div>
+
+    <label for="prezime">Prezime</label>
+    <input id="prezime" name="prezime" [(ngModel)]="prezime" #prezimee="ngModel" required>
+    <div *ngIf="prezimee.invalid && (prezimee.dirty || prezimee.touched)">
+        <small *ngIf="prezimee.errors?.['required']">Prezime je obavezno!</small>
+    </div>
+
+    <label for="pol">Pol</label>
+    <select id="pol" name="pol" [(ngModel)]="pol" #poll="ngModel" required>
+        <option value="" disabled>Izaberite pol</option>
+        <option value="M">M</option>
+        <option value="z">Ž</option>
+    </select>
+    <div *ngIf="poll.invalid && (poll.dirty || poll.touched)">
+        <small *ngIf="poll.errors?.['required']">Pol je obavezan!</small>
+    </div>
+
+    <label for="adresa">Adresa</label>
+    <input id="adresa" name="adresa" [(ngModel)]="adresa" #adresaa="ngModel" required>
+    <div *ngIf="adresaa.invalid && (adresaa.dirty || adresaa.touched)">
+        <small *ngIf="adresaa.errors?.['required']">Adresa je obavezna!</small>
+    </div>
+
+    <label for="tel">Kontakt telefon</label>
+    <input id="tel" name="tel" [(ngModel)]="tel" #tell="ngModel" required pattern="(\+[0-9]{6,12}|0[0-9]{6,12})">
+    <div *ngIf="tell.invalid && (tell.dirty || tell.touched)">
+        <small *ngIf="tell.errors?.['required']">Telefon je obavezan!</small>
+        <small *ngIf="tell.errors?.['pattern']">Molimo unesite validan broj telefona.</small>
+    </div>
+
+    <label for="email">E-mail adresa</label>
+    <input id="email" name="email" [(ngModel)]="email" #emaill="ngModel" required email>
+    <div *ngIf="emaill.invalid && (emaill.dirty || emaill.touched)">
+        <small *ngIf="emaill.errors?.['required']">E-mail je obavezan!</small>
+    </div>
+
+    <label for="profile_pic">Profilna fotografija</label>
+    <input id="profile_pic" name="profile_pic" type="file" (change)="onFileChange($event,1)">
+    <div *ngIf="pic_err">
+        <small><p class="wrap">{{ pic_err }}</p></small>
+    </div>
+    <br>
+
+    <label for="firma">Firma</label>
+    <input id="firma" name="firma" [(ngModel)]="firma" #firmaa="ngModel" required>
+    <div *ngIf="(firmaa.dirty || firmaa.touched)">
+        <small *ngIf="firmaa.errors?.['required']">Firma je obavezna!</small>
+        <small *ngIf="nepostojecaFirma(firma) && !firmaa.errors?.['required']">Odaberite postojeću firmu</small>
+    </div>
+   
+
+    <button type="submit">Dodaj</button><br>
+    <button class="top" (click)="odustani()">Odustani</button>
+    <hr>
+    <small>{{ err }}</small>
+</form>
+</div>
+<br><br>
+<hr>
+<div class="tabele" id="sec2">
+    <div class="skrol">
+    <table border="2">
+        <tr>
+            <th colspan="2"><i>Firme</i></th>
+        </tr>
+        <tr>
+            <th>Podaci</th>
+            <th>Usluge</th>
+        </tr>
+        <tr *ngFor="let f of firme">
+            <td>
+                <b>{{f.naziv}}</b> <br>
+                {{f.adresa}}<br>
+                {{f.tel}}
+            </td>
+            <td>    
+                <p *ngFor="let i of getParovi(f)">
+                    {{f.usluge[i]}}: {{f.cenovnik[i]}} &euro;
+                </p>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
+<hr id="sec3">
+<h3>Nova firma:</h3>
+<div class="tabele">
+<form #form="ngForm" (ngSubmit)="novaFirmaSubmit(form)">
+<div class="novafirma">    
+<div class="sekcija">
+    <h4><i>Firma:</i></h4>
+    <hr>
+    <label for="naziv">Naziv</label>
+    <input type="text" id="naziv" name="naziv" [(ngModel)]="novaFirma.naziv" #naziv="ngModel" required/>
+    <div *ngIf="(naziv.dirty || naziv.touched)">
+        <small *ngIf="naziv.errors?.['required']">Naziv firme je obavezan!</small>
+        <small *ngIf="!nepostojecaFirma(novaFirma.naziv)">Firma sa tim nazivom već postoji!</small>
+    </div>
+    <label for="adresaf">Adresa</label>
+    <input type="text" id="adresaf" name="adresaf" [(ngModel)]="novaFirma.adresa" #adresaff="ngModel" required/>
+    <div *ngIf="adresaff.invalid && (adresaff.dirty || adresaff.touched)">
+        <small *ngIf="adresaff.errors?.['required']">Adresa firme je obavezna!</small>
+    </div>
+    <br>
+    <div>
+        <div *ngFor="let u of usluge">
+            <input 
+                type="text"
+                [attr.id]="'u1-'+u.id"
+                placeholder="Naziv usluge"
+                (input)="azurirajVal(u.id, $event, 'val1')"
+                [value]="u.val1"
+            >
+            <div class="cene">
+            <input 
+                type="number"
+                [attr.id]="'u2-'+u.id"
+                placeholder="Cena usluge"
+                (input)="azurirajVal(u.id, $event, 'val2')"
+                [value]="u.val2"
+            > 
+            <span class="euro-symbol">&euro;</span>
+        </div>
+        </div>
+        <button type="button" (click)="dodajUslugu()">Dodajte uslugu</button>
+    </div>
+    <label for="telf">Kontakt telefon</label>
+    <input id="telf" name="telf" [(ngModel)]="novaFirma.tel" #telff="ngModel" required pattern="(\+[0-9]{6,12}|0[0-9]{6,12})">
+    <div *ngIf="telff.invalid && (telff.dirty || telff.touched)">
+        <small *ngIf="telff.errors?.['required']">Telefon je obavezan!</small>
+        <small *ngIf="telff.errors?.['pattern']">Molimo unesite validan broj telefona.</small>
+    </div>
+    <label for="map">Zabeležite lokaciju firme na mapi:</label>
+    <div id="map"></div>
+    <div>
+        <label for="start">Početak odmora</label>
+        <input id="start" [(ngModel)]="novaFirma.odmor_pocetak" name="start" type="date" #startt="ngModel" (ngModelChange)="validateDates(form)">
+        <div *ngIf="startt.errors?.['invalidDateRange'] && (startt.dirty || startt.touched)">
+            <small>Početak odmora ne može biti posle kraja odmora!</small>
+          </div>
+        <label for="end">Kraj odmora</label>
+        <input id="end" [(ngModel)]="novaFirma.odmor_kraj" name="end" type="date" #endd="ngModel" (ngModelChange)="validateDates(form)">
+        <div *ngIf="endd.errors?.['invalidDateRange'] && (endd.dirty || endd.touched)">
+            <small>Početak odmora ne može biti posle kraja odmora!</small>
+          </div>
+    </div>
+</div>
+<div class="sekcija">
+    <h4><i>Dekorater 1:</i></h4>
+    <hr>
+    <label for="kor_ime1">Korisničko ime</label>
+    <input type="text" id="kor_ime1" name="kor_ime1" [(ngModel)]="noviD1.kor_ime" #korime1="ngModel" required/>
+    <div *ngIf="(korime1.dirty || korime1.touched)">
+        <small *ngIf="korime1.errors?.['required']">Korisničko ime je obavezno!</small>
+        <small *ngIf="!korime1.errors?.['required'] && postojeciKorisnik(noviD1.kor_ime)">Korisničko ime je zauzeto.</small>
+    </div>
+
+    <label for="lozinka1">Lozinka</label>
+    <input id="lozinka1" name="lozinka1" type="password" [(ngModel)]="noviD1.lozinka" #password1="ngModel" required/>
+    <div *ngIf="(password1.dirty || password1.touched)">
+        <small *ngIf="password1.errors?.['required'] && password1.invalid">Lozinka je obavezna!</small>
+        <small *ngIf="password1.dirty && !passwordValidator(noviD1.lozinka,2) && !password1.errors?.['required']"><p class="wrap">{{pass_errD1}}</p></small>
+    </div>
+
+    <label for="ime1">Ime</label>
+    <input id="ime1" name="ime1" [(ngModel)]="noviD1.ime" #imee1="ngModel" required>
+    <div *ngIf="imee1.invalid && (imee1.dirty || imee1.touched)">
+        <small *ngIf="imee1.errors?.['required']">Ime je obavezno!</small>
+    </div>
+
+    <label for="prezime1">Prezime</label>
+    <input id="prezime1" name="prezime1" [(ngModel)]="noviD1.prezime" #prezimee1="ngModel" required>
+    <div *ngIf="prezimee1.invalid && (prezimee1.dirty || prezimee1.touched)">
+        <small *ngIf="prezimee1.errors?.['required']">Prezime je obavezno!</small>
+    </div>
+
+    <label for="pol1">Pol</label>
+    <select id="pol1" name="pol1" [(ngModel)]="noviD1.pol" #poll1="ngModel" required>
+        <option value="" disabled>Izaberite pol</option>
+        <option value="M">M</option>
+        <option value="z">Ž</option>
+    </select>
+    <div *ngIf="poll1.invalid && (poll1.dirty || poll1.touched)">
+        <small *ngIf="poll1.errors?.['required']">Pol je obavezan!</small>
+    </div>
+
+    <label for="adresa1">Adresa</label>
+    <input id="adresa1" name="adresa1" [(ngModel)]="noviD1.adresa" #adresaa1="ngModel" required>
+    <div *ngIf="adresaa1.invalid && (adresaa1.dirty || adresaa1.touched)">
+        <small *ngIf="adresaa1.errors?.['required']">Adresa je obavezna!</small>
+    </div>
+
+    <label for="tel1">Kontakt telefon</label>
+    <input id="tel1" name="tel1" [(ngModel)]="noviD1.tel" #tell1="ngModel" required pattern="(\+[0-9]{6,12}|0[0-9]{6,12})">
+    <div *ngIf="tell1.invalid && (tell1.dirty || tell1.touched)">
+        <small *ngIf="tell1.errors?.['required']">Telefon je obavezan!</small>
+        <small *ngIf="tell1.errors?.['pattern']">Molimo unesite validan broj telefona.</small>
+    </div>
+
+    <label for="email1">E-mail adresa</label>
+    <input id="email1" name="email1" [(ngModel)]="noviD1.email" #emaill1="ngModel" required email>
+    <div *ngIf="emaill1.invalid && (emaill1.dirty || emaill1.touched)">
+        <small *ngIf="emaill1.errors?.['required']">E-mail je obavezan!</small>
+        <small *ngIf="!emaill2.errors?.['required'] && postojeciMail(noviD1.email)">E-mail je već iskorišćen.</small>
+    </div>
+
+    <label for="profile_pic1">Profilna fotografija</label>
+    <input id="profile_pic1" name="profile_pic1" type="file" (change)="onFileChange($event,4)">
+    <div *ngIf="pic_errD1">
+        <small><p class="wrap">{{ pic_errD1 }}</p></small>
+    </div>
+    <br>
+        
+    <hr>
+    <small><p class="wrap">{{ errD1 }}</p></small>
+</div>
+<div class="sekcija">
+
+    <h4><i>Dekorater 2:</i></h4>
+    <hr>
+    <label for="kor_ime2">Korisničko ime</label>
+    <input type="text" id="kor_ime2" name="kor_ime2" [(ngModel)]="noviD2.kor_ime" #korime2="ngModel" required/>
+    <div *ngIf="(korime2.dirty || korime2.touched)">
+        <small *ngIf="korime2.errors?.['required']">Korisničko ime je obavezno!</small>
+        <small *ngIf="!korime2.errors?.['required'] && postojeciKorisnik(noviD2.kor_ime)">Korisničko ime je zauzeto.</small>
+    </div>
+
+    <label for="lozinka2">Lozinka</label>
+    <input id="lozinka2" name="lozinka2" type="password" [(ngModel)]="noviD2.lozinka" #password2="ngModel" required/>
+    <div *ngIf="(password2.dirty || password2.touched)">
+        <small *ngIf="password2.errors?.['required'] && password2.invalid">Lozinka je obavezna!</small>
+        <small *ngIf="password2.dirty && !passwordValidator(noviD2.lozinka,3) && !password2.errors?.['required']"><p class="wrap">{{pass_errD2}}</p></small>
+    </div>
+
+    <label for="ime2">Ime</label>
+    <input id="ime2" name="ime2" [(ngModel)]="noviD2.ime" #imee2="ngModel" required>
+    <div *ngIf="imee2.invalid && (imee2.dirty || imee2.touched)">
+        <small *ngIf="imee2.errors?.['required']">Ime je obavezno!</small>
+    </div>
+
+    <label for="prezime2">Prezime</label>
+    <input id="prezime2" name="prezime2" [(ngModel)]="noviD2.prezime" #prezimee2="ngModel" required>
+    <div *ngIf="prezimee2.invalid && (prezimee2.dirty || prezimee2.touched)">
+        <small *ngIf="prezimee2.errors?.['required']">Prezime je obavezno!</small>
+    </div>
+
+    <label for="pol2">Pol</label>
+    <select id="pol2" name="pol2" [(ngModel)]="noviD2.pol" #poll2="ngModel" required>
+        <option value="" disabled>Izaberite pol</option>
+        <option value="M">M</option>
+        <option value="z">Ž</option>
+    </select>
+    <div *ngIf="poll2.invalid && (poll2.dirty || poll2.touched)">
+        <small *ngIf="poll2.errors?.['required']">Pol je obavezan!</small>
+    </div>
+
+    <label for="adresa2">Adresa</label>
+    <input id="adresa2" name="adresa2" [(ngModel)]="noviD2.adresa" #adresaa2="ngModel" required>
+    <div *ngIf="adresaa2.invalid && (adresaa2.dirty || adresaa2.touched)">
+        <small *ngIf="adresaa2.errors?.['required']">Adresa je obavezna!</small>
+    </div>
+
+    <label for="tel2">Kontakt telefon</label>
+    <input id="tel2" name="tel2" [(ngModel)]="noviD2.tel" #tell2="ngModel" required pattern="(\+[0-9]{6,12}|0[0-9]{6,12})">
+    <div *ngIf="tell2.invalid && (tell2.dirty || tell2.touched)">
+        <small *ngIf="tell2.errors?.['required']">Telefon je obavezan!</small>
+        <small *ngIf="tell2.errors?.['pattern']">Molimo unesite validan broj telefona.</small>
+    </div>
+
+    <label for="email2">E-mail adresa</label>
+    <input id="email2" name="email2" [(ngModel)]="noviD2.email" #emaill2="ngModel" required email>
+    <div *ngIf="emaill2.invalid && (emaill2.dirty || emaill2.touched)">
+        <small *ngIf="emaill2.errors?.['required']">E-mail je obavezan!</small>
+        <small *ngIf="!emaill2.errors?.['required'] && postojeciMail(noviD2.email)">E-mail je već iskorišćen.</small>
+    </div>
+
+    <label for="profile_pic2">Profilna fotografija</label>
+    <input id="profile_pic2" name="profile_pic2" type="file" (change)="onFileChange($event,5)">
+    <div *ngIf="pic_errD2">
+        <small><p class="wrap">{{ pic_errD2 }}</p></small>
+    </div>
+    <br>
+
+    <hr>
+    <small><p class="wrap">{{ errD2 }}</p></small>
+</div>
+</div>
+<button type="submit">REGISTRUJ FIRMU</button><br>
+<button type="button" (click)="odustaniOdFirme(form)">Očisti polja</button>
+</form>
+</div>
+<hr>
+<a routerLink="/promena">Promena lozinke</a><br><br>
+<button (click)="logout()">Logout</button> 
+</html>

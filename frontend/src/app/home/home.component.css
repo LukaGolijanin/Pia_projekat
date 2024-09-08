@@ -1,0 +1,118 @@
+.home {
+    display: grid;
+    justify-content: center; /* Aligns horizontally */
+    align-items: center; /* Aligns vertically */
+    margin-top: 58px;
+}
+
+
+.menudiv {
+    display: flex;
+    justify-content: center;
+    background-color: maroon;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    top: 58px;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.menu li {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.menu a.active {
+    color: antiquewhite;
+    border-bottom: 2px solid white;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+.sekcija {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.sredina {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+    min-width: 370px;
+    max-width: 370px;
+}
+
+p {
+    font-size: x-large;
+    font-weight: 1000;
+    margin: 0px;
+}
+
+.sve {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 400px;
+    width: 100%;
+}
+
+.tabela {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid black;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 6px;
+    text-align: center;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: antiquewhite;
+    z-index: 1;
+}
+
+.mali {
+    font-size: 12px;
+    width: 100px;
+}

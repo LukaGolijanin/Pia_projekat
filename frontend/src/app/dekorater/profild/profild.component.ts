@@ -1,0 +1,121 @@
+import { Component, OnInit } from '@angular/core';
+import { Korisnik } from 'src/app/models/korisnik';
+import { UsersService } from 'src/app/services/users.service';
+
+@Component({
+  selector: 'app-profild',
+  templateUrl: './profild.component.html',
+  styleUrls: ['./profild.component.css']
+})
+export class ProfildComponent implements OnInit {
+
+  constructor(private servis: UsersService) {}
+
+  ulogovan: Korisnik = new Korisnik();
+
+  edit: boolean = false;
+  profilePicURL: string | undefined;
+
+  ime: string = '';
+  prezime: string = '';
+  adresa: string = '';
+  email: string = '';
+  tel: string = '';
+  profile_pic: File | null = null;
+
+  pic_err: string = '';
+  err_text: string = '';
+  err: boolean = false;
+
+  ngOnInit(): void {
+    let korisnik = localStorage.getItem('ulogovan');
+    if (korisnik != null) {
+      this.ulogovan = JSON.parse(korisnik);
+      this.profilePicURL = `http://localhost:4000/uploads/${this.ulogovan.profile_pic}`;
+    }
+  }
+
+  editing() {
+    this.edit  = !this.edit;
+    if (this.edit == false) {
+      this.ime = '';
+      this.prezime = '';
+      this.adresa = '';
+      this.email = '';
+      this.tel = '';
+      this.profile_pic = null;
+    }
+  }
+
+  confirm() {
+    this.servis.updateProfile(this.ulogovan.kor_ime,this.ime,this.prezime,this.adresa,
+      this.email,this.tel,'',this.ulogovan.tip,this.profile_pic).subscribe((resp) => {
+        if ((resp as any)['message'] == 'email greska') {
+          this.err_text = 'E-mail adresa je već iskorišćena!';
+        } else if ((resp as any)['message'] == 'uspesno') {
+          
+          this.servis.getUserData(this.ulogovan.kor_ime).subscribe({ // Upozorenje - depricated???
+            next: (user: Korisnik) => {
+              this.ulogovan = user;
+              localStorage.setItem('ulogovan', JSON.stringify(this.ulogovan));
+              this.profilePicURL = `http://localhost:4000/uploads/${this.ulogovan.profile_pic}`;
+              this.edit = false;
+              
+              this.ime = '';
+              this.prezime = '';
+              this.adresa = '';
+              this.email = '';
+              this.tel = '';
+              this.profile_pic = null;
+            },
+            error: (error: any) => {
+              console.error('Failed to fetch', error);
+              alert('GRESKA PRI PONOVNOM UCITAVANJU!');
+            }
+          });
+        } else if ((resp as any)['message'] == 'update greska') {
+          alert('Uredjivanje profila nije uspelo - pokušajte ponovo!');
+        } else {
+          alert('GREŠKA U SISTEMU!');
+        }
+      })
+  
+  }
+  
+
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+
+      // VALIDACIJA
+      const tipovi = ['image/jpeg', 'image/png'];
+      if (!tipovi.includes(file.type)) {
+        this.pic_err = 'Odaberite PNG ili JPG format slike!'
+        this.err = true;
+        return;
+      }
+
+      const img = new Image();
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        img.src = e.target?.result as string;
+      };
+
+      img.onload = () => {
+        const { width, height } = img;
+        if (width < 100 || width > 300 || height < 100 || height > 300) {
+          this.pic_err = 'Dimenzije slike nisu odgovarajuće! Izaberite sliku dimenzija izmedju 100px*100px i 300px*300px!';
+          this.err = true;
+          return;
+        } else {
+          this.profile_pic = file;
+          this.pic_err = '';
+          console.log('Sacuvana slika.');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+}

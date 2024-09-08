@@ -1,0 +1,89 @@
+<button (click)="nazad()" class="nazad">Nazad</button>
+<html>
+<!--ime,prezime,pol,adresa,te.email,profile_pic,credit_card-->
+<form #regForm="ngForm" *ngIf="poslat == false" (ngSubmit)="registracija(regForm)">
+    <h2><i>REGISTRACIJA</i></h2>
+    
+    <label for="kor_ime">Korisničko ime</label>
+    <input type="text" id="kor_ime" name="kor_ime" [(ngModel)]="kor_ime" #korime="ngModel" required/>
+    <div *ngIf="korime.invalid && (korime.dirty || korime.touched)">
+        <small *ngIf="korime.errors?.['required']">Korisničko ime je obavezno!</small>
+    </div>
+
+    <label for="lozinka">Lozinka</label>
+    <input id="lozinka" name="lozinka" type="password" [(ngModel)]="lozinka" #password="ngModel" required/>
+    <div *ngIf="(password.dirty || password.touched)">
+        <small *ngIf="password.errors?.['required'] && password.invalid">Lozinka je obavezna!</small>
+        <small *ngIf="password.dirty && !passwordValidator(lozinka) && !password.errors?.['required']">{{pass_err}}</small>
+    </div>
+
+    <label for="ime">Ime</label>
+    <input id="ime" name="ime" [(ngModel)]="ime" #imee="ngModel" required>
+    <div *ngIf="imee.invalid && (imee.dirty || imee.touched)">
+        <small *ngIf="imee.errors?.['required']">Ime je obavezno!</small>
+    </div>
+
+    <label for="prezime">Prezime</label>
+    <input id="prezime" name="prezime" [(ngModel)]="prezime" #prezimee="ngModel" required>
+    <div *ngIf="prezimee.invalid && (prezimee.dirty || prezimee.touched)">
+        <small *ngIf="prezimee.errors?.['required']">Prezime je obavezno!</small>
+    </div>
+
+    <label for="pol">Pol</label>
+    <select id="pol" name="pol" [(ngModel)]="pol" #poll="ngModel" required>
+        <option value="" disabled>Izaberite pol</option>
+        <option value="M">M</option>
+        <option value="z">Ž</option>
+    </select>
+    <div *ngIf="poll.invalid && (poll.dirty || poll.touched)">
+        <small *ngIf="poll.errors?.['required']">Pol je obavezan!</small>
+    </div>
+
+    <label for="adresa">Adresa</label>
+    <input id="adresa" name="adresa" [(ngModel)]="adresa" #adresaa="ngModel" required>
+    <div *ngIf="adresaa.invalid && (adresaa.dirty || adresaa.touched)">
+        <small *ngIf="adresaa.errors?.['required']">Adresa je obavezna!</small>
+    </div>
+
+    <label for="tel">Kontakt telefon</label>
+    <input id="tel" name="tel" [(ngModel)]="tel" #tell="ngModel" required pattern="(\+[0-9]{6,12}|0[0-9]{6,12})">
+    <div *ngIf="tell.invalid && (tell.dirty || tell.touched)">
+        <small *ngIf="tell.errors?.['required']">Telefon je obavezan!</small>
+        <small *ngIf="tell.errors?.['pattern']">Molimo unesite validan broj telefona.</small>
+    </div>
+
+    <label for="email">E-mail adresa</label>
+    <input id="email" name="email" [(ngModel)]="email" #emaill="ngModel" required email>
+    <div *ngIf="emaill.invalid && (emaill.dirty || emaill.touched)">
+        <small *ngIf="emaill.errors?.['required']">E-mail je obavezan!</small>
+        <small *ngIf="emaill.errors?.['email'] && !emaill.errors?.['required']">Unesite validnu e-mail adresu!</small>
+    </div>
+
+    <label for="profile_pic">Profilna fotografija</label>
+    <input id="profile_pic" name="profile_pic" type="file" (change)="onFileChange($event)">
+    <div *ngIf="pic_err">
+        <small>{{ pic_err }}</small>
+    </div>
+
+    <label for="credit_card">Kreditna kartica</label>
+    <input id="credit_card" name="credit_card" [(ngModel)]="credit_card" #creditcard="ngModel" pattern="[0-9]{15,16}" required (input)="onCreditCardInput()">
+    <div *ngIf="(creditcard.dirty || creditcard.touched)">
+        <small *ngIf="creditcard.errors?.['required']">Kreditna kartica je obavezna! </small>
+        <small *ngIf="invalidCard(credit_card)">Molimo unesite validan broj kartice.</small>
+    </div>
+
+    <div *ngIf="cardType">
+        <img *ngIf="cardType == 'visa'" src="../../assets/visa.png">
+        <img *ngIf="cardType == 'master'" src="../../assets/master.png">
+        <img *ngIf="cardType == 'diners'" src="../../assets/diners.png">
+    </div>
+
+    <button type="submit">REGISTER</button>
+    <hr>
+    <small>{{ err }}</small>
+</form>
+<div class="poruka" *ngIf="poslat == true">
+    Zahtev za registraciju je poslat. Vaš profil će biti dostupan kada ga administrator verifikuje.
+    <a routerLink="">Početna strana</a>
+</div>
+</html>

@@ -1,0 +1,12 @@
+td {
+    text-align: center;
+}
+
+td, th {
+    padding: 5px;
+}
+
+b {
+    color: red;
+    font-size: large;
+}

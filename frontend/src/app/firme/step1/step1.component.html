@@ -1,0 +1,39 @@
+<hr>
+<form [formGroup]="form" (ngSubmit)="dalje()">
+    <div>
+        <label for="datetime-picker">Datum i vreme:</label>
+        <input id="datetime-picker" type="text" formControlName="dateTime"
+        placeholder="Izaberite datum i vreme">
+        <br>
+        <small *ngIf="form.get('dateTime')?.hasError('required')
+        && (form.get('dateTime')?.dirty || form.get('dateTime')?.touched)">Datum je obavezan.</small>
+    <small *ngIf="form.get('dateTime')?.hasError('buducnost') && !form.get('dateTime')?.hasError('required')
+    && (form.get('dateTime')?.dirty || form.get('dateTime')?.touched)">Datum mora biti u budućnosti.</small>
+      </div>
+
+    <div>
+        <label for="basta_tip">Tip bašte: </label>
+        <select id="basta_tip" formControlName="basta_tip">
+            <option value="privatna">Privatna</option>
+            <option value="restoranska">Restoranska</option>
+        </select>
+        <br>
+        <small *ngIf="form.get('basta_tip')?.hasError('required')
+        && (form.get('basta_tip')?.dirty || form.get('basta_tip')?.touched)">Tip bašte je obavezan.</small>
+    </div>
+
+    <div>
+        <label for="area">Površina bašte (m²): </label>
+        <input type="number" id="area" formControlName="area">
+        <br>
+        <small *ngIf="form.get('area')?.hasError('required')
+        && (form.get('area')?.dirty || form.get('area')?.touched)">Površina bašte je obavezna.</small>
+    <small *ngIf="form.get('area')?.hasError('min') && !form.get('area')?.hasError('required')
+    && (form.get('area')?.dirty || form.get('area')?.touched)">Površina bašte mora biti veća od 0.</small>
+    </div>
+
+    <button type="submit">Sledeći korak</button>
+    <button type="button" (click)="ocistiPolja()">Očisti polja</button>
+    <br>
+    <small>{{ err }}</small>
+</form>
