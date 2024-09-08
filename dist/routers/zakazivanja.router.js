@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const zakazivanje_controller_1 = require("../controllers/zakazivanje.controller");
+const ZakazivanjaRouter = express_1.default.Router();
+ZakazivanjaRouter.route('/zakazi').post((req, res) => new zakazivanje_controller_1.ZakazivanjeController().zakazi(req, res));
+ZakazivanjaRouter.route('/getMojaTrenutnaZakazivanja/:kor_ime').get((req, res) => new zakazivanje_controller_1.ZakazivanjeController().getMojaTrenutnaZakazivanja(req, res));
+ZakazivanjaRouter.route('/getMojaArhivaZakazivanja/:kor_ime').get((req, res) => new zakazivanje_controller_1.ZakazivanjeController().getMojaArhivaZakazivanja(req, res));
+ZakazivanjaRouter.route('/getFirminaZakazivanja/:firma').get((req, res) => new zakazivanje_controller_1.ZakazivanjeController().getFirminaZakazivanja(req, res));
+ZakazivanjaRouter.route('/getZakazivanja').get((req, res) => new zakazivanje_controller_1.ZakazivanjeController().getZakazivanja(req, res));
+ZakazivanjaRouter.route('/getPotvrdjenaZakazivanja/:kor_ime').get((req, res) => new zakazivanje_controller_1.ZakazivanjeController().getPotvrdjenaZakazivanja(req, res));
+ZakazivanjaRouter.route('/otkazi').post((req, res) => new zakazivanje_controller_1.ZakazivanjeController().otkazi(req, res));
+ZakazivanjaRouter.route('/promeniStatus').post((req, res) => new zakazivanje_controller_1.ZakazivanjeController().promeniStatus(req, res));
+ZakazivanjaRouter.route('/getZavrsenaZakazivanja/:kor_ime').get((req, res) => new zakazivanje_controller_1.ZakazivanjeController().getZavrsenaZakazivanja(req, res));
+ZakazivanjaRouter.route('/getZahteviServisa/:firma').get((req, res) => new zakazivanje_controller_1.ZakazivanjeController().getZahteviServisa(req, res));
+ZakazivanjaRouter.route('/getMojaServisiranja/:kor_ime').get((req, res) => new zakazivanje_controller_1.ZakazivanjeController().getMojaServisiranja(req, res));
+ZakazivanjaRouter.route('/potvrdiServis').post((req, res) => new zakazivanje_controller_1.ZakazivanjeController().potvrdiServis(req, res));
+exports.default = ZakazivanjaRouter;
